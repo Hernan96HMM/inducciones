@@ -121,7 +121,7 @@ export default function AdminUsuariosPage() {
               <label className="block text-xs mb-1 font-medium" style={{ color: 'var(--sica-muted)' }}>Rol</label>
               <select className="input-sica text-sm" value={modal.rol ?? 'rrhh'}
                 onChange={(e) => setModal((m) => ({ ...m, rol: e.target.value as Rol }))}>
-                {ROLES.map((r) => <option key={r} value={r}>{ROL_LABEL[r]}</option>)}
+                {ROLES.map((r) => <option key={r} value={r} style={{ background: '#1A2A4A', color: '#fff' }}>{ROL_LABEL[r]}</option>)}
               </select>
             </div>
 
