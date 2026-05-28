@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Rol {
+  superadmin
+  rrhh
+  hygiene
+  calidad
+  encargado
+}
+
+enum Estado {
+  borrador
+  etapa1_pendiente
+  etapa2_pendiente
+  completado
+  evaluado
+}
+
+model User {
+  id            String     @id @default(cuid())
+  email         String     @unique
+  password_hash String
+  nombre        String
+  rol           Rol
+  activo        Boolean    @default(true)
+  created_at    DateTime   @default(now())
+  ingresos      Ingreso[]  @relation("CreatedBy")
+  encargado_de  Ingreso[]  @relation("Encargado")
+  audit_logs    AuditLog[]
+  etapa_items   EtapaItem[]
+}
+
+model Ingreso {
+  id           String      @id @default(cuid())
+  nombre       String
+  apellido     String
+  fecha_inicio DateTime
+  sector       String
+  puesto       String
+  estado       Estado      @default(borrador)
+  created_by   String
+  encargado_id String
+  created_at   DateTime    @default(now())
+  updated_at   DateTime    @updatedAt
+  creator      User        @relation("CreatedBy", fields: [created_by], references: [id])
+  encargado    User        @relation("Encargado", fields: [encargado_id], references: [id])
+  etapa_items  EtapaItem[]
+  firmas       Firma[]
+  evaluacion   Evaluacion?
+  audit_log    AuditLog[]
+}
+
+model EtapaItem {
+  id               String    @id @default(cuid())
+  ingreso_id       String
+  etapa            Int
+  item_key         String
+  completado       Boolean   @default(false)
+  fecha_completado DateTime?
+  responsable_id   String?
+  ingreso          Ingreso   @relation(fields: [ingreso_id], references: [id], onDelete: Cascade)
+  responsable      User?     @relation(fields: [responsable_id], references: [id])
+
+  @@unique([ingreso_id, item_key])
+}
+
+model Firma {
+  id              String   @id @default(cuid())
+  ingreso_id      String
+  rol_firmante    Rol
+  nombre_firmante String
+  firma_svg       String
+  timestamp       DateTime @default(now())
+  ingreso         Ingreso  @relation(fields: [ingreso_id], references: [id], onDelete: Cascade)
+}
+
+model Evaluacion {
+  id                  String   @id @default(cuid())
+  ingreso_id          String   @unique
+  fecha_evaluacion    DateTime
+  continua            Boolean
+  justificacion       String?
+  firma_encargado_svg String
+  created_at          DateTime @default(now())
+  ingreso             Ingreso  @relation(fields: [ingreso_id], references: [id], onDelete: Cascade)
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  ingreso_id String?
+  usuario_id String
+  accion     String
+  detalle    String?
+  timestamp  DateTime @default(now())
+  ingreso    Ingreso? @relation(fields: [ingreso_id], references: [id], onDelete: SetNull)
+  usuario    User     @relation(fields: [usuario_id], references: [id])
+}

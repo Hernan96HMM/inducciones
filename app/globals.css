@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --sica-navy:  #2E4272;
+  --sica-blue:  #1A9AD6;
+  --sica-white: #FFFFFF;
+  --sica-light: #F4F6F9;
+  --sica-muted: #8A9BBE;
+  --sica-dark:  #1A2A4A;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--sica-dark);
+  color: var(--sica-white);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--sica-dark); }
+::-webkit-scrollbar-thumb { background: var(--sica-navy); border-radius: 3px; }
+
+/* Shimmer animation for login headline */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--sica-white) 0%,
+    var(--sica-blue)  40%,
+    var(--sica-white) 60%,
+    var(--sica-muted) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+/* Mesh gradient background for login */
+.mesh-bg {
+  background-color: var(--sica-dark);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(46, 66, 114, 0.6) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(26, 154, 214, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 80%, rgba(26, 42, 74, 0.8) 0%, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Card glass style */
+.card-glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(138, 155, 190, 0.2);
+  border-radius: 12px;
+}
+
+/* Input base */
+.input-sica {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(138, 155, 190, 0.3);
+  border-radius: 8px;
+  color: var(--sica-white);
+  padding: 10px 14px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.input-sica:focus {
+  border-color: var(--sica-blue);
+  box-shadow: 0 0 0 3px rgba(26, 154, 214, 0.15);
+}
+
+.input-sica::placeholder {
+  color: var(--sica-muted);
+}
+
+/* Button primary */
+.btn-primary {
+  background: var(--sica-blue);
+  color: var(--sica-white);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-primary:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 16px rgba(26, 154, 214, 0.4);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Button ghost */
+.btn-ghost {
+  background: transparent;
+  color: var(--sica-muted);
+  border: 1px solid rgba(138, 155, 190, 0.3);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-ghost:hover {
+  border-color: var(--sica-blue);
+  color: var(--sica-blue);
+}
