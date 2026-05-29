@@ -75,12 +75,16 @@ export default async function DashboardPage({
       {/* Filtros */}
       <form className="flex gap-3 flex-wrap">
         <select name="estado" defaultValue={searchParams.estado ?? ''} className="input-sica w-auto text-sm px-3 py-2">
-          <option value="">Todos los estados</option>
-          <option value="borrador">Borrador</option>
-          <option value="etapa1_pendiente">Pendiente H&S</option>
-          <option value="etapa2_pendiente">Pendiente Calidad</option>
-          <option value="completado">Completado</option>
-          <option value="evaluado">Evaluado</option>
+          {[
+            ['', 'Todos los estados'],
+            ['borrador', 'Borrador'],
+            ['etapa1_pendiente', 'Pendiente H&S'],
+            ['etapa2_pendiente', 'Pendiente Calidad'],
+            ['completado', 'Completado'],
+            ['evaluado', 'Evaluado'],
+          ].map(([v, l]) => (
+            <option key={v} value={v} style={{ background: '#1A2A4A', color: '#fff' }}>{l}</option>
+          ))}
         </select>
         <input
           name="sector"
